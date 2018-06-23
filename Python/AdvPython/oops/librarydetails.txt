@@ -1,0 +1,5 @@
+maths,3
+english,2
+physics,5
+chemistry,3
+art,5

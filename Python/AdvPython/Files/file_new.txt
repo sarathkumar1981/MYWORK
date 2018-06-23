@@ -1,0 +1,9 @@
+"id","name","sal","gender","dno"
+101,Ravi,2000,M,10
+102,Krish,3000,M,10
+103,Rama,4000,F,20
+104,Ramu,5000,M,20
+105,lalitha,4000,F,10  
+101,Ravi,2000,M,10
+102,Krish,3000,M,10
+103,Rama,4000,F,20

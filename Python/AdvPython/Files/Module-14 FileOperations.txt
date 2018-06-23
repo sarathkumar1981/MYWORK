@@ -1,0 +1,284 @@
+Files in Python :
+===============
+Data is stored in files. 
+
+Opening a files: 
+----------------
+file handler = open("filename","open mode","buffering")
+
+open modes : 
+----------
+w - write data into file.If data is already present in the file, it would be
+	deleted and present data will be stored.
+
+r - To read data from file. The file pointer is positioned at the beginning of file.
+
+a - To append data to the file. Appending means adding at the end of existing data.
+     The file pointer is placed at the end of the file. If the file does not exist,
+	 it will create new file to write data.
+	 
+w+ - To write and read data of a file. The previous data in the file will deleted.
+
+r+ - To read and write into a file. The previous data in the file will not be deleted.
+	 The file pointer is placed at beginning of the file.
+
+a+ - To append and read data of a file. The file pointer will be at the end of the file.
+	 if file exists. If the file does not exist,it creates a new file for reading and
+	 writing.
+	 
+x - To open the file in exclusive creation mode.The file creation fails if the file 
+   already exists.
+
+
+A buffer represents a temporary block of memory. 'buffering is an optional integer used to set the
+size of the buffer for the file. if we specify 500 then it will use 500 bytes of data to read and write.
+If we don't mention any buffering integer , then default buffer size would be 4096 or 8192 bytes.
+
+
+f = open("myfile.txt","w")
+
+Here f represents file handler or file object. It refers to the file with the name 'myfile.txt' that is opened in 'w' mode.
+
+Closing File : 
+----------------
+A file which is opened should be using the close()  method. Once file is opened but not closed, then 
+data of the file may be corrupted or deleted in some cases. Also if the file is not close, the memory
+utilized by the file not freed, leading to problems like insufficient memory. This happens when we are 
+working with several files simultaneously. Hence it is mandatory to close file.
+
+f.close()
+
+1. Python program to create a text file to store individual characters.
+
+write : 
+-------
+f = open('myfile.txt','w')
+
+str = input("Enter text:")
+
+f.write(str)
+
+f.close()
+
+Read : 
+-------
+f = open("myfile.txt","r")
+
+str = f.read()
+
+print(str)
+
+f.close()
+
+Append :
+-------
+f = open("myfile.txt","a")
+
+str = input("Enter string:\n")
+
+f.write(str)
+
+
+f.close()
+
+
+2. Python program to store a group of strings into a text file.
+
+f = open('myfile.txt','w')
+
+print("Please enter text(@ at end):\n")
+
+str = None
+while(str != '@'):
+	str = input()
+
+	if(str != '@'):
+		f.write(str+"\n")
+
+f.close()
+
+
+3. Program to check whether the file is exist or not.
+
+import os,sys
+
+fname = input("Enter file name")
+
+if os.path.isfile(fname):
+	f = open(fname,'r')
+	str = f.read()
+	print(str)
+else:
+	print(fname+'does not exist')
+	exit(1)
+
+The with statement: 
+===================
+
+The with statement can be used while opening a file.
+The advantage of with statement is it will take care of closing a file which is opened by it.
+Hence we need not close the file explicitly.
+
+The format of using with statement
+
+with open("filename","openmode") as fileobject:
+
+1. A python program to use with open a file and write some strings to the file.
+
+with open('myfile.txt','w') as f:
+	f.write('I am learner\n')  
+	f.write('Python is attractive\n')
+
+details.txt:
+-----------
+"id","name","sal","gender","dno"
+101,Ravi,2000,M,10
+102,Krish,3000,M,10
+103,Rama,4000,F,20
+104,Ramu,5000,M,20
+105,lalitha,4000,F,10		
+	
+	
+Difference between read(),readline(),readlines()
+----------------------------------------------
+>>>file_path = 'C:\\Users\\lenovo\\Desktop\\details.txt'
+>>> f = open(file_path,'r')
+>>> f.read()
+'"id","name","sal","gender","dno"\n101,Ravi,2000,M,10\n102,Krish,3000,M,10\n103,Rama,4000,F,20\n104,Ramu,5000,M,20\n105,lalitha,4000,F,10'
+>>> f.readline()
+''
+>>> f = open(file_path,'r')
+>>> f.readline()
+'"id","name","sal","gender","dno"\n'
+>>> f.readline()
+'101,Ravi,2000,M,10\n'
+>>> f.readline()
+'102,Krish,3000,M,10\n'
+>>> f.readlines()
+['103,Rama,4000,F,20\n', '104,Ramu,5000,M,20\n', '105,lalitha,4000,F,10']
+	
+
+
+
+file_example.py:
+---------------
+1.select dno,sum(sal) details group by dno;
+
+file_path = 'C:\\Users\\lenovo\\Desktop\\details.txt'
+
+
+aggr = {}
+with open(file_path,'r') as f:
+
+	n=f.readline()
+	lines = f.readlines()
+	print(n)
+	print(lines)
+	for  line in lines:
+		w = line.split(",")
+		dno = int(w[4].split('\n')[0])
+		sal = int(w[2])
+		
+		if aggr.get(dno) == None:
+			aggr[dno] = sal
+		else:
+			aggr[dno] += sal
+		
+			
+print(aggr)	
+
+select gen,sum(sal) from tablename : 
+
+aggr = {}
+with open('file.txt','r') as f:
+	line1 = f.readline()
+	lines=f.readlines()
+	#print('Employee details are\n',lines)
+
+	
+	for line in lines:
+		
+		w = line.split(',')
+		sal = int(w[2])
+		gen = w[3]
+		
+		
+		if(aggr.get(gen) == None):
+			aggr[gen] = sal
+		else:
+			aggr[gen] += sal
+print(aggr)
+
+2. select dno,gender,sum(sal) from details group by dno;
+
+assignment
+
+3. Merge multiples files to single file.
+case1: Both having same schema
+
+f1 = open('file1.txt','r')
+file1_content = f1.readlines()
+
+f2 = open('file2.txt','r')
+file2_content = f2.readlines()
+
+file3_content = file1_content+file2_content
+
+file_new = open('file_new.txt','w')
+
+
+for line in file3_content:
+	file_new.write(line)
+
+
+file_new.close()
+f2.close()
+f1.close()
+
+case : both having same schema with different order
+
+file1.txt
+----------
+id,name,gen
+101,phani,M
+102,Raji,F
+103,Prasad,M
+
+file2.txt 
+---------
+id,gen,name
+104,F,Lakshmi
+105,M,Pramod
+106,M,Krishna
+
+f1 = open('file1.txt','r')
+file1_content = f1.readlines()
+
+f2 = open('file2.txt','r')
+h1 = f2.readline()
+file2_content = f2.readlines()
+
+file2_new = []
+for line in file2_content:
+	words = line.split(',')
+	id = words[0]
+	gen = words[1]
+	name = words[2].split('\n')[0]
+	rec = id+','+name+','+gen+'\n'
+	file2_new.append(rec)
+	
+
+file3_content = file1_content+['\n']+file2_new
+
+file_new = open('file_new.txt','w')
+
+for line in file3_content:
+	
+	file_new.write(line)
+
+
+file_new.close()
+
+f2.close()
+f1.close()
+
