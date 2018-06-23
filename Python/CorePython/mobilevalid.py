@@ -7,8 +7,8 @@ else:
     print("invalid mobile num")
 
 
-part1="123"
-part2="45"
+part1="337"
+part2="38"
 part3="6789"
 
 ssn= '{}-{}-{}'.format(part1,part2,part3)
